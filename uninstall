@@ -1,0 +1,4 @@
+#!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
+rm -rf /usr/local/ispprotect
+rm -f /usr/local/bin/ispp_scan

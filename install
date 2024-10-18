@@ -1,0 +1,18 @@
+#!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
+
+# Install Clamav CLI scan utility
+apt install -y clamav
+
+# Install ISPProtect
+mkdir -p /usr/local/ispprotect
+chown -R root:root /usr/local/ispprotect
+chmod -R 750 /usr/local/ispprotect
+cd /usr/local/ispprotect
+wget https://www.ispprotect.com/download/ispp_scan.tar.gz
+tar xzf ispp_scan.tar.gz
+rm -f ispp_scan.tar.gz
+ln -s /usr/local/ispprotect/ispp_scan /usr/local/bin/ispp_scan
+
+# Notify installation has finished
+/usr/local/hestia/bin/v-add-user-notification admin "ISPProtect" "&#128737; ISPProtect has been installed."
