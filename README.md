@@ -18,6 +18,15 @@ git clone https://github.com/virtuosoft-dev/hcpp-ispprotect ispprotect
 
 Note: It is important that the destination plugin folder name is `ispprotect`.
 
+Be sure to logout and login again to your Hestia Control Panel as the admin user or, as admin, visit Server (gear icon) -> Configure -> Plugins -> Save; the plugin will immediately start installing ISPProtect and depedencies in the background. A notification will appear under the admin user account indicating *"ISPProtect plugin has finished installing"* when complete. This may take awhile before the options appear in Hestia. You can force manual installation via root level SSH:
+
+```
+sudo -s
+cd /usr/local/hestia/plugins/ispprotect
+./install
+touch "/usr/local/hestia/data/hcpp/installed/ispprotect"
+```
+
 ## TODO:
 * Install BanDaemon
 * Configure script to cycle through clients and perform optimized scan/ban analysis.
