@@ -52,6 +52,7 @@ if ( ! class_exists( 'ISPProtect') ) {
                 $files = glob( "$folder/ispp_scan*.json" );
                 if ( $files !== false && !empty( $files ) ) {
                     $ispp_json_file = $files[0];
+                    break;
                 }
             }
             if ( $ispp_json_file == '' ) return $args;
@@ -81,9 +82,7 @@ if ( ! class_exists( 'ISPProtect') ) {
             
             // Apple santization to each value in the array
             $ispp_params = array_map( [$this, 'sanitize_value'], $ispp_params );
-
-            // Find the results-dir value and create it if it doesn't exist
-            $results_dir = $ispp_params['results-dir'] ?? '/tmp';
+            $results_dir = $ispp_params['results-dir'] ?? substr($ispp_json_file, 0, -5) . '_results';
             if ( ! is_dir( $results_dir ) ) {
                 mkdir( $results_dir, 0755, true );
 
@@ -94,7 +93,7 @@ if ( ! class_exists( 'ISPProtect') ) {
                 chown( $results_dir, $owner );
                 chgrp( $results_dir, $group );
             }
-            
+            $ispp_params['results-dir'] = $results_dir;
 
             // Assemble the command line that removes the ispp_scan.json file and 
             // kicks off the ispp_scan command with the given parameters.
