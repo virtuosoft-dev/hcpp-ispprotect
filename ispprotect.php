@@ -99,7 +99,11 @@ if ( ! class_exists( 'ISPProtect') ) {
             // kicks off the ispp_scan command with the given parameters.
             $cmd = "rm -f $ispp_json_file ; /usr/local/bin/ispp_scan --non-interactive";
             foreach( $ispp_params as $key => $value ) {
-                $cmd .= " --$key $value";
+                if ( trim( $value ) != '' ) {
+                    $cmd .= " --$key=$value";
+                }else{
+                    $cmd .= " --$key";
+                };
             }
 
             // Execute the ispp_scan and put output results to $results_dir/results.txt
