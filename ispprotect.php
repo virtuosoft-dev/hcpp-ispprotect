@@ -106,9 +106,14 @@ if ( ! class_exists( 'ISPProtect') ) {
                 };
             }
 
+            // Get the owner and group of the parent folder
+            $parent_dir = dirname($results_dir);
+            $owner = posix_getpwuid(fileowner($parent_dir))['name'];
+            $group = posix_getgrgid(filegroup($parent_dir))['name'];
+
             // Execute the ispp_scan and put output results to $results_dir/results.txt
             // and run it asynchronously
-            $cmd .= " > $results_dir/results.txt 2>&1 &";
+            $cmd .= " > $results_dir/results.txt ; chown -R $owner:$group $results_dir 2>&1 &";
             $hcpp->log( "Running ISPProtect scan with command: $cmd" );
             $hcpp->log( shell_exec( $cmd ) );
             return $args;
